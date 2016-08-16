@@ -42,5 +42,7 @@ $(document).ready(function(){
     $(document).on('click','#loadSettingsButton',loadSettings);
     $(document).on('click','#loadLastTempButton',loadLastTemp);
     
-    
+   
+    loadLastTemp();
+    loadSettings();
 });

@@ -60,9 +60,18 @@ if (isset($_REQUEST['loadLastTemp'])) {
 
   
   <style>
-      * {
-         font-family: 'Orbitron', sans-serif; 
+      body {
+         font-family: 'Orbitron', sans-serif;
+         background-color:#333333;
+         color:#009999;
       }
+      
+      #tempReadout {
+          color:#009999;
+          font-weight:bold;
+          font-size:6em;
+      }
+      
   </style>
   
   <script src="/js/script.js"></script>
@@ -107,8 +116,10 @@ if (isset($_REQUEST['loadLastTemp'])) {
     <input type="button" value="Load Settings" id="loadSettingsButton"><br>
     <input type="button" value="Load Last Temp" id="loadLastTempButton">
     
-    
-    lastTempVal:<span id="lastTempVal">NO DATA</span><br><br>
+    <div id="tempReadout">
+        <span id="lastTempVal">NO DATA</span> &#8457
+    </div>
+    lastTempVal:<br><br>
     lastTempDate:<span id="lastTempDate">NO DATA</span><br><br>
     
     
