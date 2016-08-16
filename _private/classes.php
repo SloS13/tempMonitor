@@ -78,9 +78,17 @@ class Freezer {
     //save temp(s) to database
     public static function storeTemps() {
         $mysqli = static::getConnection();
-        $info = array('id'=>1, 'temp'=>mt_rand( 0 , 33 ));
+        $output = shell_exec('/var/www/html/python/./getTemp');
+
+        if ( substr_count($output,'YES') ) {
+            $tempRaw = substr($output, -6);
+            $tempC = $tempRaw / 1000;
+            $tempF = ($tempC * 9 / 5) + 32;
+        } else {
+            //handle error, cannot 
+        }
         
-        $q = "INSERT INTO readings(sensorNumber,temperature,readingTime) VALUES (1,'{$info['temp']}',NOW())";
+        $q = "INSERT INTO readings(sensorNumber,temperature,readingTime) VALUES (1,'{$tempF}',NOW())";
         $r = mysqli_query($mysqli,$q) or die ('Failed inserting temperature');
     }
     
