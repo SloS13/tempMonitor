@@ -18,6 +18,39 @@ function loadSettings() {
 }
 
 
+function loadLiveTemp() {
+     $.ajax({
+        url: '/',
+        type: 'POST',
+        data: {
+            getLiveTemp:1
+        },
+	beforeSend:function(){
+		//$('#lastTempVal').html('--.--');
+	},
+        success:function(result)
+        {
+            var response = jQuery.parseJSON(result);
+            console.log(response);
+            $('#lastTempVal').html(response.temperature);
+            $('#lastTempTime').html(response.minutesSince);
+
+  $( "#lastTempVal" ).animate({
+    opacity: 0.7
+  }, 100, function() {
+    $( "#lastTempVal" ).animate({
+    opacity: 1
+  }, 100, function() {
+    // Animation complete.
+  });
+  });
+	}
+
+    }); //ajax call
+}
+
+
+
 function loadLastTemp() {
     //do ajax to load settings into form
     $.ajax({
@@ -31,7 +64,7 @@ function loadLastTemp() {
             var response = jQuery.parseJSON(result);
             console.log(response);
             $('#lastTempVal').html(response.temperature);
-            $('#lastTempDate').html(response.readingTime);
+            $('#lastTempTime').html(response.minutesSince);
         }
     }); //ajax call
 }
@@ -43,6 +76,13 @@ $(document).ready(function(){
     $(document).on('click','#loadLastTempButton',loadLastTemp);
     
    
-    loadLastTemp();
+    //loadLastTemp();
     loadSettings();
+
+
+setInterval(function() {
+  // method to be executed;
+loadLiveTemp();
+}, 2000);
+
 });

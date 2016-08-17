@@ -22,6 +22,15 @@ if (isset($_REQUEST['loadLastTemp'])) {
     echo Freezer::getLastTemp();
     exit;
 }
+
+
+if (isset($_REQUEST['getLiveTemp'])) {
+    $return['temperature'] =  Freezer::storeTemps(false);
+    $return['minutesSince'] = 0;
+    echo json_encode($return);
+    exit;
+}
+
 ?>
 
 <!doctype html>
@@ -43,6 +52,8 @@ if (isset($_REQUEST['loadLastTemp'])) {
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   
   <link href='https://fonts.googleapis.com/css?family=Orbitron:400,500,700,900' rel='stylesheet' type='text/css'>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/jquery.canvasjs.min.js"></script>
   
   
   <script type="text/javascript">
@@ -67,22 +78,67 @@ if (isset($_REQUEST['loadLastTemp'])) {
       }
       
       #tempReadout {
-          color:#009999;
+display:inline-block;
+padding:15px;
+margin:15px auto;
+          background-color:#222222;
           font-weight:bold;
           font-size:6em;
+border-radius: 12px;
       }
-      
+#lastTempTime {
+font-size:0.5em;
+}
+
   </style>
   
+
+  <script type="text/javascript">
+window.onload = function () {
+
+//Better to construct options first and then pass it as a parameter
+	var options = {
+		title: {
+			text: "Temperature History"
+		},
+                animationEnabled: true,
+		axisY: {
+       			 title: "Temp F"
+		     },
+		data: [
+		{
+			type: "column", //change it to line, area, bar, pie, etc
+			dataPoints: [
+				{ y: 25, label: '6am' },
+				{ y: 26, label: '7am' },
+				{ y: 28, label: '8am' },
+				{ y: 27, label: '9am' },
+				{ y: 25, label: '10am' },
+				{ y: 25, label: '11am' },
+                                { y: 26, label: '12pm' },
+                                { y: 28, label: '1pm' },
+                                { y: 27, label: '2pm' },
+                                { y: 25, label: '3pm' },
+				{ y: 26, label: '4pm' }
+			]
+		}
+		]
+	};
+
+	$("#chartContainer").CanvasJSChart(options);
+
+}
+</script>
+
+
+
+
+
   <script src="/js/script.js"></script>
   
 </head>
 
 <body>
-    history with graph<br><br>
-    current temperature<br><br>
-    configuration editor<br><br>
-    
     <div style="border:4px solid red; padding:5px; margin:15px;">
         <h1>variable configuration</h1>
         min temp<br>
@@ -91,16 +147,13 @@ if (isset($_REQUEST['loadLastTemp'])) {
         Time between alerts<br>
         last alert verified (user has acknowledged alert) 0 = no, 1=yes, 2=temperature has returned to normal since this instance <br>
         ** need to send alerts if newest db record is x seconds old (python problems?
+-OR- separate table for  status/alerts/etc.
     </div>
     
     <div style="border:4px solid red; padding:5px; margin:15px;">
-        1 table with settings<br>
-        1 table with events which includes notifications and temperature readings<br>
         PHP cron job to call python and evaluate readings?<br>
         <h1>event types</h1>
-        t = temperature<br>
-        a = alert<br>
-        
+       
     </div>
     
     
@@ -114,14 +167,15 @@ if (isset($_REQUEST['loadLastTemp'])) {
         </form>
     </div>
     <input type="button" value="Load Settings" id="loadSettingsButton"><br>
-    <input type="button" value="Load Last Temp" id="loadLastTempButton">
+    <input type="button" value="Load Last Temp" id="loadLastTempButton" style="display:none;">
+ <input type="button" value="Load Live Temp" onclick="loadLiveTemp();" style="display:none;">
+
     
     <div id="tempReadout">
-        <span id="lastTempVal">NO DATA</span> &#8457
+        <span id="lastTempVal">loading..</span> <sup>o</sup>F
     </div>
-    lastTempVal:<br><br>
-    lastTempDate:<span id="lastTempDate">NO DATA</span><br><br>
-    
+
+    <div id="chartContainer" style="height: 300px; width: 80%;"></div>
     
     
     

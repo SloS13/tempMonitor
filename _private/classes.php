@@ -81,14 +81,14 @@ class Freezer {
         $output = shell_exec('/var/www/html/python/./getTemp');
 
         if ( substr_count($output,'YES') ) {
-            $tempRaw = substr($output, -6);
+            $tempRaw = trim(substr($output,strpos($output,'t=')+2));
             $tempC = $tempRaw / 1000;
             $tempF = ($tempC * 9 / 5) + 32;
         } else {
             //handle error, cannot
             $tempF = 0;
         }
-	$tempF = ROUND($tempF,2);
+	$tempF = number_format (ROUND($tempF,2),2);
 
         if ($saveToDB) {
 	        $q = "INSERT INTO readings(sensorNumber,temperature,readingTime) VALUES (1,'{$tempF}',NOW())";
