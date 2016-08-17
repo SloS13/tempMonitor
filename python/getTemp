@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo modprobe w1-gpio
+sudo modprobe w1-therm
+cd /sys/bus/w1/devices/28-80000026c57c
+cat w1_slave

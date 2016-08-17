@@ -75,8 +75,8 @@ class Freezer {
         }
     }
     
-    //save temp(s) to database
-    public static function storeTemps() {
+    //save temp(s) to database.  This can also be used to just get current temperature and not save
+    public static function storeTemps($saveToDB = true) {
         $mysqli = static::getConnection();
         $output = shell_exec('/var/www/html/python/./getTemp');
 
@@ -85,18 +85,24 @@ class Freezer {
             $tempC = $tempRaw / 1000;
             $tempF = ($tempC * 9 / 5) + 32;
         } else {
-            //handle error, cannot 
+            //handle error, cannot
+            $tempF = 0;
         }
-        
-        $q = "INSERT INTO readings(sensorNumber,temperature,readingTime) VALUES (1,'{$tempF}',NOW())";
-        $r = mysqli_query($mysqli,$q) or die ('Failed inserting temperature');
+	$tempF = ROUND($tempF,2);
+
+        if ($saveToDB) {
+	        $q = "INSERT INTO readings(sensorNumber,temperature,readingTime) VALUES (1,'{$tempF}',NOW())";
+        	$r = mysqli_query($mysqli,$q) or die ('Failed inserting temperature');
+	}
+	return $tempF;
     }
     
     //get temp(s) from database
     public static function getLastTemp($type='json') {
         $mysqli = static::getConnection();
         
-        $q = "select * from readings order by id DESC LIMIT 0,1";
+        $q = "select *,
+CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince from readings order by id DESC LIMIT 0,1";
         $r = mysqli_query($mysqli,$q) or die ('Failed reading last temperature');
         $info = mysqli_fetch_assoc($r);
         
