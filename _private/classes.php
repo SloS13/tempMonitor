@@ -132,11 +132,22 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
 		$r = mysqli_query($mysqli,$q) or die ('Failed reading last temperature');
 
 		while ($row = mysqli_fetch_assoc($r)) {
-		  $new = array('temperature' => $row['temperature'],'time' => date('D ga',strtotime($row['readingTime'])));
-		  $histArray[] = $histArray;
+		  $new = array('y' => $row['temperature'],'label' => date('D ga',strtotime($row['readingTime'])));
+		  $histArray[] = $new;
 		}
-		return json_encode($histArray);
+		return json_encode($histArray,JSON_NUMERIC_CHECK);
 	}
+
+
+
+    public static function sendMail($subject,$message) {
+        $mysqli = static::getConnection();
+
+        
+    }
+
+
+
 
 }
 

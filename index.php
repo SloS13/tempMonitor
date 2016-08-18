@@ -47,7 +47,6 @@ if (isset($_REQUEST['getLongHistory'])) {
   <title>Maloney Freezer</title>
   <meta name="description" content="Maloney Freezer">
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
-  <script src="/js/script.js"></script>
   
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -106,6 +105,9 @@ window.onload = function () {
 		title: {
 			text: "Temperature History"
 		},
+axisX: {
+labelAngle: 90
+},
                 animationEnabled: true,
 		axisY: {
        			 title: "Temp F"
@@ -113,19 +115,7 @@ window.onload = function () {
 		data: [
 		{
 			type: "column", //change it to line, area, bar, pie, etc
-			dataPoints: [
-				{ y: 25, label: '6am' },
-				{ y: 26, label: '7am' },
-				{ y: 28, label: '8am' },
-				{ y: 27, label: '9am' },
-				{ y: 25, label: '10am' },
-				{ y: 25, label: '11am' },
-                                { y: 26, label: '12pm' },
-                                { y: 28, label: '1pm' },
-                                { y: 27, label: '2pm' },
-                                { y: 25, label: '3pm' },
-				{ y: 26, label: '4pm' }
-			]
+			dataPoints: <?php echo Freezer::longHistory();?>
 		}
 		]
 	};

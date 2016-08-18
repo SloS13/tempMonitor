@@ -1,3 +1,6 @@
+var liveRetrieveInterval = 5000; //milliseconds
+var recentTemps = new Array();
+
 function loadSettings() {
     //do ajax to load settings into form
     $.ajax({
@@ -35,6 +38,10 @@ function loadLiveTemp() {
             $('#lastTempVal').html(response.temperature);
             $('#lastTempTime').html(response.minutesSince);
 
+	recentTemps.push(response);
+	recentTemps.slice(Math.max(recentTemps.length - 50, 1));
+console.log(recentTemps);
+
   $( "#lastTempVal" ).animate({
     opacity: 0.7
   }, 100, function() {
@@ -71,18 +78,19 @@ function loadLastTemp() {
 
 
 $(document).ready(function(){
-    
+    console.log('document is ready');
     $(document).on('click','#loadSettingsButton',loadSettings);
     $(document).on('click','#loadLastTempButton',loadLastTemp);
     
    
-    //loadLastTemp();
+    loadLiveTemp();
     loadSettings();
 
-
-setInterval(function() {
+clearInterval(interval);
+var interval = setInterval(function() {
   // method to be executed;
+console.log('interval met');
 loadLiveTemp();
-}, 2000);
+}, liveRetrieveInterval );
 
 });
