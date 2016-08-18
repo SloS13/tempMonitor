@@ -1,6 +1,8 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/_private/classes.php';
 
+error_reporting(E_ALL);
+
 //handle posts
 if (isset($_POST['loadSettings'])) {
     echo Freezer::getSettings();
