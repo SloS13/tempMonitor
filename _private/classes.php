@@ -158,21 +158,22 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
         $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
         $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-        $mail->Username   = "ka24det@gmail.com";  // GMAIL username
-        $mail->Password   = "Einstein8430";            // GMAIL password
+        $mail->Username   = static::getConfigAttr('gmailUser');  // GMAIL username
+        $mail->Password   = static::getConfigAttr('gmailPassword');            // GMAIL password
 
-        $mail->SetFrom('ka24det@gmail.com', 'First Last');
+        $mail->SetFrom(static::getConfigAttr('gmailUser'), static::getConfigAttr('gmailName'));
 
         #$mail->AddReplyTo("name@yourdomain.com","First Last");
 
-        $mail->Subject    = "Test Message";
+        $mail->Subject= $subject;
 
         
 
         $mail->MsgHTML($body);
 
+        //DO STUFF HERE TO SEND MAIL TO DIFFERENT ADDRESSES BASED ON WHATS SAVED IN THE DATABASE
         $address = "ka24det@gmail.com";
-        $mail->AddAddress($address, "Jesse Maloney");
+        $mail->AddAddress($address);
 
 
         if(!$mail->Send()) {
