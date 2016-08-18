@@ -113,6 +113,31 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         }
     }
 
+
+	public static function longHistory($hours=48) {
+		$mysqli = static::getConnection();
+		$histArray = array();
+
+		$q = "SELECT * FROM (
+		select *,
+		TIMESTAMPDIFF(MINUTE,readingTime,NOW()) minutesSince,
+		HOUR(readingTime) as timeHour,
+		MINUTE(readingTime) as timeMinute,
+		CONCAT(DAY(readingTime),HOUR(readingTime)) as timeUnique
+		 from readings) subq
+		WHERE minutesSince<(60*48)
+		GROUP BY timeUnique
+		ORDER BY minutesSince DESC";
+
+		$r = mysqli_query($mysqli,$q) or die ('Failed reading last temperature');
+
+		while ($row = mysqli_fetch_assoc($r) {
+		  $new = array('temperature' => $row['temperature'],'time' => date('D ga',strtotime($row['readingTime'])));
+		  $histArray[] = $histArray
+		}
+		return json_encode($histArray);
+	}
+
 }
 
 Freezer::init($config);
