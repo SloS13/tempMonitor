@@ -143,7 +143,7 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
     public static function sendMail($subject,$message) {
         $mysqli = static::getConnection();
         $fsRoot = dirname(dirname(__FILE__));
-        $path = $fsRoot . '/includes/PHPMailer-FE_v4.11/_lib/phpmailer-fe.php';
+        $path = $fsRoot . '/includes/PHPMailer-master/PHPMailerAutoload.php';
         require_once($path);
        
         $mail             = new PHPMailer();
