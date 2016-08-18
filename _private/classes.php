@@ -142,7 +142,43 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
 
     public static function sendMail($subject,$message) {
         $mysqli = static::getConnection();
+        $fsRoot = dirname(dirname(__FILE__));
+        require_once($fsRoot . '/includes/PHPMailer-FE_v4.11/phpmailer-fe.php');
+        
+        $mail             = new PHPMailer();
 
+        $body             = 'This is a test';
+
+        $mail->IsSMTP(); // telling the class to use SMTP
+        $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+                                                   // 1 = errors and messages
+                                                   // 2 = messages only
+        $mail->SMTPAuth   = true;                  // enable SMTP authentication
+        $mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+        $mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+        $mail->Port       = 587;                   // set the SMTP port for the GMAIL server
+        $mail->Username   = "ka24det@gmail.com";  // GMAIL username
+        $mail->Password   = "Einstein8430";            // GMAIL password
+
+        $mail->SetFrom('ka24det@gmail.com', 'First Last');
+
+        #$mail->AddReplyTo("name@yourdomain.com","First Last");
+
+        $mail->Subject    = "Test Message";
+
+        
+
+        $mail->MsgHTML($body);
+
+        $address = "ka24det@gmail.com";
+        $mail->AddAddress($address, "Jesse Maloney");
+
+
+        if(!$mail->Send()) {
+          echo "Mailer Error: " . $mail->ErrorInfo;
+        } else {
+          echo "Message sent!";
+        }
         
     }
 

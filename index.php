@@ -36,6 +36,11 @@ if (isset($_REQUEST['getLongHistory'])) {
     exit;
 }
 
+if (isset($_REQUEST['testEmail'])) {
+    Freezer::sendMail('Here is subject','Here is message');
+    exit;
+}
+
 ?>
 
 <!doctype html>
