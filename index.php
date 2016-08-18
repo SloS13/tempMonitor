@@ -31,6 +31,11 @@ if (isset($_REQUEST['getLiveTemp'])) {
     exit;
 }
 
+if (isset($_REQUEST['getLongHistory'])) {
+    echo json_encode(Freezer::longHistory());
+    exit;
+}
+
 ?>
 
 <!doctype html>

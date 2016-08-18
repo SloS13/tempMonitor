@@ -131,9 +131,9 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
 
 		$r = mysqli_query($mysqli,$q) or die ('Failed reading last temperature');
 
-		while ($row = mysqli_fetch_assoc($r) {
+		while ($row = mysqli_fetch_assoc($r)) {
 		  $new = array('temperature' => $row['temperature'],'time' => date('D ga',strtotime($row['readingTime'])));
-		  $histArray[] = $histArray
+		  $histArray[] = $histArray;
 		}
 		return json_encode($histArray);
 	}
