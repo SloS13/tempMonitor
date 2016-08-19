@@ -39,7 +39,7 @@ function loadLiveTemp() {
             $('#lastTempTime').html(response.minutesSince);
 
 	recentTemps.push(response);
-	recentTemps = recentTemps.slice(- 50);
+	recentTemps = recentTemps.slice(- 10);
 console.log(recentTemps);
 
   $( "#lastTempVal" ).animate({
