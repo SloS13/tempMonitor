@@ -184,7 +184,7 @@ labelAngle: 90
  <input type="button" value="Live Chart" onclick="liveChart();" style="" id="liveChartButton">
  
 <p style="clear:both;"></p>
- <div id="liveChartContainer"></div>
+ <div id="liveChartContainer" style="height:500px;"></div>
  <p style="clear:both;"></p>
  
     <div id="tempReadout">
