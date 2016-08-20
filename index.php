@@ -29,7 +29,7 @@ if (isset($_REQUEST['loadLastTemp'])) {
 if (isset($_REQUEST['getLiveTemp'])) {
     $return['temperature'] =  Freezer::storeTemps(false);
     $return['minutesSince'] = time();
-    echo json_encode($return);
+    echo json_encode($return, JSON_NUMERIC_CHECK);
     exit;
 }
 
