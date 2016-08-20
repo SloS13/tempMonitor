@@ -114,9 +114,11 @@ function loadLiveTemp() {
             $('#lastTempVal').html(response.temperature);
             $('#lastTempTime').html(response.minutesSince);
 
-	recentTemps.push(response);
+            var thisTemp = {x:response.temperature, y:response.minutesSince};
+	recentTemps.push(thisTemp);
 	recentTemps = recentTemps.slice(- 10);
-        //console.log(recentTemps);
+        
+        console.log(recentTemps);
 
   $( "#lastTempVal" ).animate({
     opacity: 0.7
@@ -152,6 +154,48 @@ function loadLastTemp() {
     }); //ajax call
 }
 
+
+
+function liveChart(){
+    $.ajax({
+        url: '/',
+        type: 'POST',
+        data: {
+            loadLastTemp:1
+        },
+        success:function(result)
+        {
+            var response = jQuery.parseJSON(result);
+            console.log(response);
+     
+        }
+    }); //ajax call
+    
+    //Better to construct options first and then pass it as a parameter
+	var options = {
+		title: {
+			text: "Live Data"
+		},
+                animationEnabled: true,
+		data: [
+		{
+			type: "spline", //change it to line, area, column, pie, etc
+			dataPoints: [
+				{ x: 10, y: 10 },
+				{ x: 20, y: 12 },
+				{ x: 30, y: 8 },
+				{ x: 40, y: 14 },
+				{ x: 50, y: 6 },
+				{ x: 60, y: 24 },
+				{ x: 70, y: -4 },
+				{ x: 80, y: 10 }
+			]
+		}
+		]
+	};
+
+	$("#liveChartContainer").CanvasJSChart(options);
+}
 
 $(document).ready(function(){
     console.log('document is ready');

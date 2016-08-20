@@ -28,7 +28,7 @@ if (isset($_REQUEST['loadLastTemp'])) {
 
 if (isset($_REQUEST['getLiveTemp'])) {
     $return['temperature'] =  Freezer::storeTemps(false);
-    $return['minutesSince'] = 0;
+    $return['minutesSince'] = time();
     echo json_encode($return);
     exit;
 }
@@ -181,8 +181,10 @@ labelAngle: 90
  <input type="button" value="Disable Alert" onclick="dialog_disableAlert();" style="">
  <input type="button" value="Settings" onclick="dialog_settings();" style="">
  <input type="button" value="Live Feed Off" onclick="toggleInterval();" style="" id="liveFeedButton">
+ <input type="button" value="Live Chart" onclick="liveChart();" style="" id="liveChartButton">
+ 
 
-    
+ <div id="liveChartContainer"></div>
     <div id="tempReadout">
         <span id="lastTempVal">loading..</span> <sup>o</sup>F
     </div>
