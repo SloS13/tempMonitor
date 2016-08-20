@@ -163,7 +163,9 @@ labelAngle: 90
 
 <body>
    
-    
+    <div id="data">
+        <input type="hidden" id="lastHourAverage" value="<?php echo Freezer::getLastHourAverage();?>">
+    </div>
     
     
     <div id="settingsWrapper">

@@ -176,6 +176,13 @@ function liveChart(){
 		title: {
 			text: "Live Data"
 		},
+                axisX: {
+                
+                },
+                axisY: {
+                    minimum: parseFloat($('#lastHourAverage').val())-10,
+                    maximum: parseFloat($('#lastHourAverage').val())+10,
+                },
                 animationEnabled: true,
 		data: [
 		{

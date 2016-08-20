@@ -75,6 +75,20 @@ class Freezer {
         }
     }
     
+    public static function getLastHourAverage($type='json') {
+        $mysqli = static::getConnection();
+        $r = mysqli_query($mysqli,'select ROUND(avg(temperature),0) as avg
+from  readings
+where readingTime >= DATE_SUB(NOW(),INTERVAL 1 HOUR); ') or die ('Failed getting average');
+        $info = mysqli_fetch_assoc($r);
+        
+        if ( $type=='json' ) {
+            return json_encode($info['avg']);
+        }else {
+            return $avg;
+        }
+    }
+    
     //save temp(s) to database.  This can also be used to just get current temperature and not save
     public static function storeTemps($saveToDB = true) {
         $mysqli = static::getConnection();
