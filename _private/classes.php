@@ -190,6 +190,8 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
                 $subject = 'Alert from freezer';
                 $message = $row['alertConditionDescription'] . '<br><br> To disable this alert,  <a href="http://'.static::getConfigAttr('baseURL').'">click here</a>';
                 static::sendMail($subject,$message);
+                $q = 'UPDATE alerts SET alertNotificationsSent=1 WHERE id='.$row['id'];
+                $r2 = mysqli_query($mysqli,$q) or die ('Failed setting alert as sent');
             }
         }
         
@@ -203,7 +205,7 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
        
         $mail             = new PHPMailer();
 
-        $body             = 'This is a test';
+        $body             = $message;
 
         $mail->IsSMTP(); // telling the class to use SMTP
         $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
