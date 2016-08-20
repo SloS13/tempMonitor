@@ -43,6 +43,12 @@ if (isset($_REQUEST['testEmail'])) {
     exit;
 }
 
+if (isset($_REQUEST['getStatus'])) {
+    $status = Freezer::getStatus();
+    echo json_encode($status);
+    exit;
+}
+
 ?>
 
 <!doctype html>
@@ -89,17 +95,23 @@ if (isset($_REQUEST['testEmail'])) {
       }
       
       #tempReadout {
-display:inline-block;
-padding:15px;
-margin:15px auto;
-          background-color:#222222;
-          font-weight:bold;
-          font-size:6em;
-border-radius: 12px;
+        display:inline-block;
+        padding:15px;
+        margin:15px auto;
+        background-color:#990000;
+        font-weight:bold;
+        font-size:6em;
+        border-radius: 12px;
       }
-#lastTempTime {
-font-size:0.5em;
-}
+      
+      #tempReadout.ok {
+          background-color:#1dc116;
+      }
+      
+      
+        #lastTempTime {
+            font-size:0.5em;
+        }
 
   </style>
   
@@ -147,22 +159,7 @@ labelAngle: 90
 </head>
 
 <body>
-    <div style="border:4px solid red; padding:5px; margin:15px;">
-        <h1>variable configuration</h1>
-        min temp<br>
-        max temp<br>
-        alert email list<br>
-        Time between alerts<br>
-        last alert verified (user has acknowledged alert) 0 = no, 1=yes, 2=temperature has returned to normal since this instance <br>
-        ** need to send alerts if newest db record is x seconds old (python problems?
--OR- separate table for  status/alerts/etc.
-    </div>
-    
-    <div style="border:4px solid red; padding:5px; margin:15px;">
-        PHP cron job to call python and evaluate readings?<br>
-        <h1>event types</h1>
-       
-    </div>
+   
     
     
     
@@ -177,6 +174,8 @@ labelAngle: 90
     <input type="button" value="Load Settings" id="loadSettingsButton"><br>
     <input type="button" value="Load Last Temp" id="loadLastTempButton" style="display:none;">
  <input type="button" value="Load Live Temp" onclick="loadLiveTemp();" style="display:none;">
+ <input type="button" value="Get Status" onclick="getOverallStatus();" style="">
+
 
     
     <div id="tempReadout">

@@ -147,7 +147,21 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
 		return $return;
 	}
 
-
+    public static function getStatus() {
+        $mysqli = static::getConnection();
+        $return = array();
+        
+        $q = 'SELECT * FROM alerts WHERE alertStatus=0';
+        $r = mysqli_query($mysqli,$q) or die ('Failed reading alerts');
+        if (mysqli_num_rows($r)==0) {
+            $return['ok'] = true;
+        } else {
+            $return['ok'] = false;
+            $info = mysqli_fetch_assoc($r);
+            $return['alert'] = $info;
+        }
+        return $return;
+    }
 
     public static function sendMail($subject,$message) {
         $mysqli = static::getConnection();

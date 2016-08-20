@@ -1,6 +1,28 @@
 var liveRetrieveInterval = 5000; //milliseconds
 var recentTemps = new Array();
 
+function getOverallStatus() {
+    $.ajax({
+        url: '/',
+        type: 'POST',
+        data: {
+            getStatus:1
+        },
+        success:function(result)
+        {
+            var response = jQuery.parseJSON(result);
+            if (response.ok) {
+                $('#tempReadout').addClass('ok');
+            } else {
+                $('#tempReadout').removeClass('ok');
+                alert('there is a problem!');
+            }
+            
+            
+        }
+    }); //ajax call
+}
+
 function loadSettings() {
     //do ajax to load settings into form
     $.ajax({
@@ -34,13 +56,13 @@ function loadLiveTemp() {
         success:function(result)
         {
             var response = jQuery.parseJSON(result);
-            console.log(response);
+            //console.log(response);
             $('#lastTempVal').html(response.temperature);
             $('#lastTempTime').html(response.minutesSince);
 
 	recentTemps.push(response);
 	recentTemps = recentTemps.slice(- 10);
-console.log(recentTemps);
+        //console.log(recentTemps);
 
   $( "#lastTempVal" ).animate({
     opacity: 0.7
