@@ -183,8 +183,10 @@ labelAngle: 90
  <input type="button" value="Live Feed Off" onclick="toggleInterval();" style="" id="liveFeedButton">
  <input type="button" value="Live Chart" onclick="liveChart();" style="" id="liveChartButton">
  
-
+<p style="clear:both;"></p>
  <div id="liveChartContainer"></div>
+ <p style="clear:both;"></p>
+ 
     <div id="tempReadout">
         <span id="lastTempVal">loading..</span> <sup>o</sup>F
     </div>
