@@ -9,9 +9,11 @@ function toggleInterval() {
         liveRetrieveActive = false;
         $('#liveFeedButton').val('Live Feed Off');
         doInterval();
+        $("#liveChartContainer").hide('slow');
     } else {
         liveRetrieveActive = true;
         $('#liveFeedButton').val('Live Feed On');
+        liveChart();
         doInterval();
     }
 }
@@ -157,22 +159,7 @@ function loadLastTemp() {
 
 
 function liveChart(){
-    $.ajax({
-        url: '/',
-        type: 'POST',
-        data: {
-            loadLastTemp:1
-        },
-        success:function(result)
-        {
-            var response = jQuery.parseJSON(result);
-            console.log(response);
-     
-        }
-    }); //ajax call
-    
-    //Better to construct options first and then pass it as a parameter
-	var options = {
+    var options = {
 		title: {
 			text: "Live Data"
 		},
@@ -195,6 +182,10 @@ function liveChart(){
 	};
 
 	$("#liveChartContainer").CanvasJSChart(options);
+        $("#liveChartContainer").show('slow');
+    
+    
+	
 }
 
 $(document).ready(function(){
