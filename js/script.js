@@ -1,5 +1,59 @@
 var liveRetrieveInterval = 5000; //milliseconds
+var liveRetrieveActive = false; //milliseconds
 var recentTemps = new Array();
+var interval; //used with interval
+
+function toggleInterval() {
+    console.log('toggle Interval called');
+    if (liveRetrieveActive) {
+        liveRetrieveActive = false;
+        $('#liveFeedButton').val('Live Feed Off');
+        doInterval();
+    } else {
+        liveRetrieveActive = true;
+        $('#liveFeedButton').val('Live Feed On');
+        doInterval();
+    }
+}
+
+function doInterval() {
+    if (liveRetrieveActive) {
+        interval = setInterval(function() {
+        console.log('interval met');
+        loadLiveTemp();
+      }, liveRetrieveInterval );
+      console.log('set thing to '+liveRetrieveInterval+' seconds')
+    } else {
+        clearInterval(interval);
+        console.log('interval cleared');
+    }
+}
+
+function dialog_disableAlert() {
+    swal({
+    title: 'Confirm latest alert?',
+    text: "Are you sure you want to confirm the latest alert?",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Yes!'
+  }).then(function() {
+    alert('that has been did');
+  })
+}
+
+function dialog_settings() {
+    swal({
+    title: 'Settings',
+    html: "Settings will go here",
+    type: 'none',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'Yes!'
+  }).then(function() {
+    alert('that has been did');
+  })
+}
 
 function getOverallStatus() {
     $.ajax({
@@ -108,11 +162,9 @@ $(document).ready(function(){
     loadLiveTemp();
     loadSettings();
 
-clearInterval(interval);
-var interval = setInterval(function() {
-  // method to be executed;
-console.log('interval met');
-loadLiveTemp();
-}, liveRetrieveInterval );
+
+
+
+
 
 });

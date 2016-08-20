@@ -151,6 +151,9 @@ labelAngle: 90
 </script>
 
 
+<!--sweet alert-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.1.8/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/sweetalert2/4.1.8/sweetalert2.min.js"></script>
 
 
 
@@ -175,7 +178,9 @@ labelAngle: 90
     <input type="button" value="Load Last Temp" id="loadLastTempButton" style="display:none;">
  <input type="button" value="Load Live Temp" onclick="loadLiveTemp();" style="display:none;">
  <input type="button" value="Get Status" onclick="getOverallStatus();" style="">
-
+ <input type="button" value="Disable Alert" onclick="dialog_disableAlert();" style="">
+ <input type="button" value="Settings" onclick="dialog_settings();" style="">
+ <input type="button" value="Live Feed Off" onclick="toggleInterval();" style="" id="liveFeedButton">
 
     
     <div id="tempReadout">
