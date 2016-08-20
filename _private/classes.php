@@ -189,7 +189,7 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
             while ($row = mysqli_fetch_assoc($r)) {
                 $subject = 'Alert from freezer';
                 $message = $row['alertConditionDescription'] . '<br><br> To disable this alert,  <a href="http://'.static::getConfigAttr('baseURL').'">click here</a>';
-                sendMail($subject,$message);
+                static::sendMail($subject,$message);
             }
         }
         
