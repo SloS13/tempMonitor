@@ -119,7 +119,7 @@ function loadLiveTemp() {
 	recentTemps = recentTemps.slice(- 10);
         
         console.log(recentTemps);
-
+        if (liveRetrieveActive) {liveChart();}
   $( "#lastTempVal" ).animate({
     opacity: 0.7
   }, 100, function() {
