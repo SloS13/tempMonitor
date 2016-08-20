@@ -93,6 +93,17 @@ class Freezer {
         if ($saveToDB) {
 	        $q = "INSERT INTO readings(sensorNumber,temperature,readingTime) VALUES (1,'{$tempF}',NOW())";
         	$r = mysqli_query($mysqli,$q) or die ('Failed inserting temperature');
+                
+                //test if temperature is out of range
+                $currentStatus = static::getStatus();
+                $settings = static::getSettings('array');
+                if ($currentStatus['ok'] && ($tempF>=$settings['maxTemp'] || $tempF<=$settings['minTemp'] )) {
+                    $longStr = static::generateRandomString();
+                    $description = "Temperature out of range.  Temperature is at $tempF and does not fall within range of {$settings['minTemp']} to {$settings['maxTemp']}";
+                    $q = "INSERT INTO alerts(alertLongID,alertDate,alertConditionDescription) VALUES ('$longStr',NOW(),$description)";
+                    $r = mysqli_query($myslqi,$q) or die ('Failed inserting new alert');
+                }
+                
 	}
 	return $tempF;
     }
