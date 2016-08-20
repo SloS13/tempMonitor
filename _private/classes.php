@@ -269,7 +269,55 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
     }
 
 
+ public static function settingsInterface($type='json') {
+     $mysqli = static::getConnection();
+     $settings = static::getSettings('array');
+     
+     $html = '<div id="settingsWrapper">
+        <form id="settingsForm">
+        <input type="hidden" name="settingsFormSubmitted" id="settingsFormSubmitted" value="1">
+        <table>
+            <tr>
+                <td>Min Temp:</td>
+                <td><input type="text" id="minTemp" name="minTemp" value="'.$settings['minTemp'].'"></td>
+            </tr>
+            <tr>
+                <td>Max Temp:</td>
+                <td><input type="text" id="maxTemp" name="maxTemp" value="'.$settings['maxTemp'].'"></td>
+            </tr>
+            <tr>
+                <td>Notification Interval:</td>
+                <td><input type="text" id="minutesBetweenNotifications" name="minutesBetweenNotifications" value="'.$settings['minutesBetweenNotifications'].'"></td>
+            </tr>
+            <tr>
+                <td>Alert Emails:</td>
+                <td><input type="text" id="alertEmails" name="alertEmails" value="'.$settings['alertEmails'].'"></td>
+            </tr>
+            </table>
+        </form>
+    </div>';
+     
+     if ($type=='json') {
+         return json_encode($html);
+     } else {
+         return $html;
+     }
+ }
+        
+ public static function updateSettings($post) {
+     $mysqli = static::getConnection();
+     $q = "UPDATE SETTINGS SET 
+            minTemp='".mysqli_real_escape_string($mysqli,$post['minTemp'])."', 
+            maxTemp='".mysqli_real_escape_string($mysqli,$post['maxTemp'])."', 
+            minutesBetweenNotifications='".mysqli_real_escape_string($mysqli,$post['minutesBetweenNotifications'])."', 
+            alertEmails='".mysqli_real_escape_string($mysqli,$post['alertEmails'])."'";
+            $r = mysqli_query($mysqli,$q) or die ('Failed to update settings ' . $q);
+             
 
+
+
+
+ }
 
 }
 

@@ -49,6 +49,19 @@ if (isset($_REQUEST['getStatus'])) {
     exit;
 }
 
+if (isset($_REQUEST['getSettingsInterface'])) {
+    $x = Freezer::settingsInterface('array');
+    echo json_encode($x);
+    exit;
+}
+
+if (isset($_REQUEST['settingsFormSubmitted'])) {
+    $x = Freezer::updateSettings($_POST);
+    echo json_encode('OK');
+    exit;
+}
+
+
 ?>
 
 <!doctype html>
@@ -168,14 +181,7 @@ labelAngle: 90
     </div>
     
     
-    <div id="settingsWrapper">
-        <form id="settingsForm">
-            Min Temp:<input type="text" id="minTemp" name="minTemp" value="Loading..."><br>
-            Max Temp:<input type="text" id="maxTemp" name="maxTemp" value="Loading..."><br>
-            minutesBetweenNotifications:<input type="text" id="minutesBetweenNotifications" name="minutesBetweenNotifications" value="Loading..."><br>
-            Alert Emails:<input type="text" id="alertEmails" name="alertEmails" value="Loading..."><br>
-        </form>
-    </div>
+    
     <input type="button" value="Load Settings" id="loadSettingsButton"><br>
     <input type="button" value="Load Last Temp" id="loadLastTempButton" style="display:none;">
  <input type="button" value="Load Live Temp" onclick="loadLiveTemp();" style="display:none;">

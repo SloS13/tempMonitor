@@ -45,16 +45,45 @@ function dialog_disableAlert() {
 }
 
 function dialog_settings() {
+    var settingsInterfaceHTML;
+    $.ajax({
+        url: '/',
+        type: 'POST',
+        async:false,
+        data: {
+            getSettingsInterface:1
+        },
+        success:function(result)
+        {
+            settingsInterfaceHTML = jQuery.parseJSON(result);
+            
+            
+            
+        }
+    }); //ajax call
+    
+    
+    
     swal({
     title: 'Settings',
-    html: "Settings will go here",
+    html: settingsInterfaceHTML,
     type: 'none',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     confirmButtonText: 'Yes!'
   }).then(function() {
-    alert('that has been did');
-  })
+    var data = $('#settingsForm').serialize();
+     $.ajax({
+        url: '/',
+        type: 'POST',
+        async:false,
+        data: data,
+        success:function(result)
+        {
+           alert(result);
+        }
+    }); //ajax call
+ })
 }
 
 function getOverallStatus() {
