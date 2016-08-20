@@ -231,8 +231,10 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         if (trim($settings['alertEmails'])!='') {
             $emailsArray = explode(',',$settings['alertEmails']);
             foreach ($emailsArray as $e) {
-                $e = trim(e);
-                $mail->AddAddress($e);
+                $e = trim($e);
+                if (filter_var($e, FILTER_VALIDATE_EMAIL)) {
+                    $mail->AddAddress($e);
+                }
             }
         }
         
