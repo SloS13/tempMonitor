@@ -203,6 +203,9 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         $path = $fsRoot . '/includes/PHPMailer-master/PHPMailerAutoload.php';
         require_once($path);
        
+        //add emoticon
+        $subject = '&#xfe320 ' . $subject;
+        
         $mail             = new PHPMailer();
 
         $body             = $message;
