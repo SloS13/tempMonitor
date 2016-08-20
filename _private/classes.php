@@ -105,6 +105,10 @@ class Freezer {
                 }
                 
 	}
+        
+        //stick this in here so it runs on a schedule
+        static::sendAlerts();
+        
 	return $tempF;
     }
     
@@ -174,6 +178,23 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         return $return;
     }
 
+    
+    public static function sendAlerts() {
+        $mysqli = static::getConnection();
+        
+        $q = 'SELECT * FROM alerts WHERE alertStatus=0 AND alertNotificationsSent=0';
+        $r = mysqli_query($mysqli,$q) or die ('Failed reading alerts for notification');
+        
+        if (mysqli_num_rows($r)) {
+            while ($row = mysqli_fetch_assoc($r)) {
+                $subject = 'Alert from freezer';
+                $message = $row['alertConditionDescription'] . '<br><br> To disable this alert,  <a href="http://'.static::getConfigAttr('baseURL').'">click here</a>';
+                sendMail($subject,$message);
+            }
+        }
+        
+    }
+    
     public static function sendMail($subject,$message) {
         $mysqli = static::getConnection();
         $fsRoot = dirname(dirname(__FILE__));
@@ -206,8 +227,16 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         $mail->MsgHTML($body);
 
         //DO STUFF HERE TO SEND MAIL TO DIFFERENT ADDRESSES BASED ON WHATS SAVED IN THE DATABASE
-        $address = "ka24det@gmail.com";
-        $mail->AddAddress($address);
+        $settings = static::getSettings();
+        if (trim($settings['alertEmails'])!='') {
+            $emailsArray = explode(',',$settings['alertEmails']);
+            foreach ($emailsArray as $e) {
+                $e = trim(e);
+                $mail->AddAddress($e);
+            }
+        }
+        
+        
 
 
         if(!$mail->Send()) {

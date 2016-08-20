@@ -8,5 +8,5 @@ $config = array(
     'gmailUser' => 'malloryamaloney@gmail.com',
     'gmailPassword' => 'Einstein8430',
     'gmailName' => 'Mallory Freezer',
-    'baseURL' => 'jmaloney.ddns.net:8080' //DO NOT END WITH SLASH
+    'baseURL' => 'jmaloney.ddns.net:8080' //DO NOT END WITH SLASH, do not include http://
 );
