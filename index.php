@@ -103,12 +103,16 @@ font-size:0.5em;
 
   </style>
   
+  <?php
+    //get data for long history
+   $longHistory = Freezer::longHistory();
+  ?>
 
   <script type="text/javascript">
 window.onload = function () {
 
 //Better to construct options first and then pass it as a parameter
-	var options = {
+	var histOptions = {
 		title: {
 			text: "Temperature History"
 		},
@@ -117,17 +121,19 @@ labelAngle: 90
 },
                 animationEnabled: true,
 		axisY: {
-       			 title: "Temp F"
+       			 title: "Temp F",
+                         minimum: <?php echo $longHistory['min']-10;?>,
+                         maximum: <?php echo $longHistory['max']+10;?>
 		     },
 		data: [
 		{
 			type: "column", //change it to line, area, bar, pie, etc
-			dataPoints: <?php echo Freezer::longHistory();?>
+			dataPoints: <?php echo json_encode($longHistory['temps'],JSON_NUMERIC_CHECK);?>
 		}
 		]
 	};
 
-	$("#chartContainer").CanvasJSChart(options);
+	$("#chartContainer").CanvasJSChart(histOptions);
 
 }
 </script>

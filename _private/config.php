@@ -5,7 +5,8 @@ $config = array(
     'dbName' => 'tempmonitor',
     'dbUser' => 'tempmonitor',
     'dbPassword' => 'tempmonitor',
-    'gmailUser' => 'ka24det@gmail.com',
+    'gmailUser' => 'malloryamaloney@gmail.com',
     'gmailPassword' => 'Einstein8430',
-    'gmailName' => 'Jesse Maloney',
+    'gmailName' => 'Mallory Freezer',
+    'baseURL' => 'jmaloney.ddns.net:8080' //DO NOT END WITH SLASH
 );

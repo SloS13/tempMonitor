@@ -117,7 +117,9 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
 	public static function longHistory($hours=48) {
 		$mysqli = static::getConnection();
 		$histArray = array();
-
+                $min = 100000;
+                $max = -100000;
+                
 		$q = "SELECT * FROM (
 		select *,
 		TIMESTAMPDIFF(MINUTE,readingTime,NOW()) minutesSince,
@@ -132,10 +134,17 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
 		$r = mysqli_query($mysqli,$q) or die ('Failed reading last temperature');
 
 		while ($row = mysqli_fetch_assoc($r)) {
+                  if ($row['temperature'] < $min){$min = $row['temperature'];}
+                  if ($row['temperature'] > $max){$max = $row['temperature'];}
 		  $new = array('y' => $row['temperature'],'label' => date('D ga',strtotime($row['readingTime'])));
 		  $histArray[] = $new;
 		}
-		return json_encode($histArray,JSON_NUMERIC_CHECK);
+                
+                $return['min'] = $min;
+                $return['max'] = $max;
+                $return['temps'] = $histArray;
+                
+		return $return;
 	}
 
 
