@@ -101,7 +101,7 @@ class Freezer {
                     $longStr = static::generateRandomString();
                     $description = "Temperature out of range.  Temperature is at $tempF and does not fall within range of {$settings['minTemp']} to {$settings['maxTemp']}";
                     $q = "INSERT INTO alerts(alertLongID,alertDate,alertConditionDescription) VALUES ('$longStr',NOW(),$description)";
-                    $r = mysqli_query($myslqi,$q) or die ('Failed inserting new alert');
+                    $r = mysqli_query($mysqli,$q) or die ('Failed inserting new alert');
                 }
                 
 	}
