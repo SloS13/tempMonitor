@@ -3,8 +3,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/_private/classes.php';
 
 error_reporting(E_ALL);
 
-$startTime = time();
-
 //handle posts
 if (isset($_POST['loadSettings'])) {
     echo Freezer::getSettings();
@@ -30,7 +28,7 @@ if (isset($_REQUEST['loadLastTemp'])) {
 
 if (isset($_REQUEST['getLiveTemp'])) {
     $return['temperature'] =  Freezer::storeTemps(false);
-    $return['minutesSince'] = time()-$startTime;
+    $return['minutesSince'] = time();
     echo json_encode($return);
     exit;
 }
