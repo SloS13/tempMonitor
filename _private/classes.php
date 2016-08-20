@@ -85,7 +85,7 @@ where readingTime >= DATE_SUB(NOW(),INTERVAL 1 HOUR); ') or die ('Failed getting
         if ( $type=='json' ) {
             return json_encode($info['avg']);
         }else {
-            return $avg;
+            return $info['avg'];
         }
     }
     
