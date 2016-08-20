@@ -204,7 +204,7 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         require_once($path);
        
         //add emoticon
-        $subject = '&#xfe320 ' . $subject;
+        $subject = '&#xfe320; ' . $subject;
         
         $mail             = new PHPMailer();
 
