@@ -227,7 +227,7 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
         $mail->MsgHTML($body);
 
         //DO STUFF HERE TO SEND MAIL TO DIFFERENT ADDRESSES BASED ON WHATS SAVED IN THE DATABASE
-        $settings = static::getSettings();
+        $settings = static::getSettings('array');
         if (trim($settings['alertEmails'])!='') {
             $emailsArray = explode(',',$settings['alertEmails']);
             foreach ($emailsArray as $e) {
