@@ -114,7 +114,7 @@ function loadLiveTemp() {
             $('#lastTempVal').html(response.temperature);
             $('#lastTempTime').html(response.minutesSince);
 
-            var thisTemp = {x:response.temperature, y:response.minutesSince};
+            var thisTemp = {y:response.temperature, x:response.minutesSince};
 	recentTemps.push(thisTemp);
 	recentTemps = recentTemps.slice(- 10);
         
