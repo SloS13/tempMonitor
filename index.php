@@ -123,9 +123,7 @@ window.onload = function () {
 
 //Better to construct options first and then pass it as a parameter
 	var histOptions = {
-		title: {
-			text: "Temperature History"
-		},
+		
 axisX: {
 labelAngle: 90
 },
@@ -260,7 +258,7 @@ labelAngle: 90
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> History</h3>
+                                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Log</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="list-group">
