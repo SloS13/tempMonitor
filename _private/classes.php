@@ -131,7 +131,7 @@ where readingTime >= DATE_SUB(NOW(),INTERVAL 1 HOUR); ') or die ('Failed getting
                 
                 //automatially confirm last alert, email people 
                 if (!$currentStatus['ok'] && ($last3Info['numGoodTemps']==3 )) {
-                    $q = "UPDATE alerts SET alertStatus=2, alertLog = CONCAT(alertLog,', Temperature normalized, disabling alert') WHERE alertStatus=0";
+                    $q = "UPDATE alerts SET alertStatus=2, alertLog = CONCAT(alertLog,|, Temperature normalized, disabling alert') WHERE alertStatus=0";
                     $r = mysqli_query($mysqli,$q) or die ('Unable to disarm automatically');
                 }
                 
@@ -331,13 +331,44 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
             minutesBetweenNotifications='".mysqli_real_escape_string($mysqli,$post['minutesBetweenNotifications'])."', 
             alertEmails='".mysqli_real_escape_string($mysqli,$post['alertEmails'])."'";
             $r = mysqli_query($mysqli,$q) or die ('Failed to update settings ' . $q);
-             
-
-
-
-
  }
 
+ 
+ public static function generateAlertHistoryHTML() {
+     $mysqli = static::getConnection();
+     $q = "select * from alerts order by id DESC LIMIT 0,25";
+     $r = mysqli_query($mysqli,$q) or die ('Failed to get alert history ' . $q);
+     if (mysqli_num_rows($r)) {
+         while ($row = mysqli_fetch_assoc($r)) {
+             //determine color
+             if ($row['alertStatus']=='0') {
+                 $color='#d9534f';
+             } else {
+                 $color='#5cb85c';
+             }
+             
+             if ($row['alertLog'] == '') {
+                 $extra = '';
+             } else {
+                 $extra = '<br>' . str_replace('|','<br>',$row['alertLog']);
+             }
+             
+             
+             $html = '
+                    <div class="list-group-item">
+                        <span class="badge">'.$row['alertDate'].'</span>
+                        <i class="fa fa-fw fa-exclamation-triangle" style="color:'.$color.'"></i> <div>'.$row['alertConditionDescription'].$extra.'</div>
+                    </div>
+                    ';
+         }
+         
+     } else {
+         $html = '';
+     }
+     return $html;
+ }
+ 
+ 
 }
 
 Freezer::init($config);
