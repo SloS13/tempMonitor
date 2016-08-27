@@ -266,9 +266,7 @@ labelAngle: 90
                                 <div class="list-group">
                                     <?php echo Freezer::generateAlertHistoryHTML();?>
                                 </div>
-                                <div class="text-right">
-                                    <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
