@@ -235,5 +235,11 @@ $(document).ready(function(){
     
 
 
-
+    $(document).on('click','.nav.navbar-nav li a',function(e){
+        e.preventDefault();
+        $('.nav.navbar-nav li').removeClass('active');
+        $(this).find('li').addClass('active');
+        $('.container-fluid').hide('slow');
+        $('#'+$(this).data('container')).show('slow');
+    });
 });
