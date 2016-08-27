@@ -230,6 +230,7 @@ $(document).ready(function(){
    
     loadLiveTemp();
     loadSettings();
+    getOverallStatus();
 
     setTimeout(getOverallStatus, 5000);
     

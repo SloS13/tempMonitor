@@ -240,7 +240,7 @@ labelAngle: 90
                             Dashboard <small>Freezer Overview</small>
                         </h1>
                         <div id="overallStatusWrapper" class="alert">
-                            Status not determined at this time
+                            Please Wait...
                         </div>
                     </div>
                 </div>
