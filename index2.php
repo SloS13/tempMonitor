@@ -338,11 +338,9 @@ labelAngle: 90
                         <h1 class="page-header">
                             Dashboard <small>Freezer Overview</small>
                         </h1>
-                        <ol class="breadcrumb">
-                            <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
-                            </li>
-                        </ol>
+                        <div id="overallStatusWrapper" class="alert">
+                            Status not determined at this time
+                        </div>
                     </div>
                 </div>
                 <!-- /.row -->

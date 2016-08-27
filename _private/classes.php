@@ -89,6 +89,9 @@ where readingTime >= DATE_SUB(NOW(),INTERVAL 1 HOUR); ') or die ('Failed getting
         }
     }
     
+    
+    
+    
     //save temp(s) to database.  This can also be used to just get current temperature and not save
     public static function storeTemps($saveToDB = true) {
         $mysqli = static::getConnection();
@@ -111,11 +114,25 @@ where readingTime >= DATE_SUB(NOW(),INTERVAL 1 HOUR); ') or die ('Failed getting
                 //test if temperature is out of range
                 $currentStatus = static::getStatus();
                 $settings = static::getSettings('array');
-                if ($currentStatus['ok'] && ($tempF>=$settings['maxTemp'] || $tempF<=$settings['minTemp'] )) {
+                
+                //get last 3 temperatures.  If all are out of range, we will say current temperature is bad
+                $q = "SELECT SUM(goodTemp) numGoodTemps FROM 
+                    (select 
+                    IF (temperature BETWEEN {$settings['minTemp']} AND {$settings['maxTemp']},1,0) as goodTemp from readings order by readingTime DESC LIMIT 0,3) subq";
+                $r = mysqli_query($mysqli,$q) or die ('Failed to get last 3 temps');
+                $last3Info = mysqli_fetch_assoc($r);
+                
+                if ($currentStatus['ok'] && ($last3Info['numGoodTemps']!=3 )) {
                     $longStr = static::generateRandomString();
                     $description = "Temperature out of range.  Temperature is at $tempF and does not fall within range of {$settings['minTemp']} to {$settings['maxTemp']}";
                     $q = "INSERT INTO alerts(alertLongID,alertDate,alertConditionDescription) VALUES ('$longStr',NOW(),'$description')";
                     $r = mysqli_query($mysqli,$q) or die ('Failed inserting new alert');
+                }
+                
+                //automatially confirm last alert, email people 
+                if (!$currentStatus['ok'] && ($last3Info['numGoodTemps']==3 )) {
+                    $q = "UPDATE alerts SET alertStatus=2, alertLog = CONCAT(alertLog,', Temperature normalized, disabling alert') WHERE alertStatus=0";
+                    $r = mysqli_query($mysqli,$q) or die ('Unable to disarm automatically');
                 }
                 
 	}
@@ -179,6 +196,8 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
     public static function getStatus() {
         $mysqli = static::getConnection();
         $return = array();
+        
+        
         
         $q = 'SELECT * FROM alerts WHERE alertStatus=0';
         $r = mysqli_query($mysqli,$q) or die ('Failed reading alerts');

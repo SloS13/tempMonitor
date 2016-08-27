@@ -97,9 +97,12 @@ function getOverallStatus() {
         {
             var response = jQuery.parseJSON(result);
             if (response.ok) {
-                $('#tempReadout').addClass('panel-green');
+                $('#tempReadout').addClass('panel-green').removeClass('panel-red');
+                $('#overallStatusWrapper').removeClass('alert-danger').addClass('alert-success').html('Oh shit, problem.');
             } else {
-                $('#tempReadout').removeClass('panel-red');
+                $('#tempReadout').addClass('panel-red').removeClass('panel-green');
+                $('#overallStatusWrapper').addClass('alert-danger').removeClass('alert-success').html('Oh shit, problem.');
+
                 alert('there is a problem!');
             }
             
@@ -226,8 +229,8 @@ $(document).ready(function(){
     loadLiveTemp();
     loadSettings();
 
-
-
+    setTimeout(getOverallStatus, 5000);
+    
 
 
 
