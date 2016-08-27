@@ -166,16 +166,29 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
                 $min = 100000;
                 $max = -100000;
                 
-		$q = "SELECT * FROM (
-		select *,
-		TIMESTAMPDIFF(MINUTE,readingTime,NOW()) minutesSince,
-		HOUR(readingTime) as timeHour,
-		MINUTE(readingTime) as timeMinute,
-		CONCAT(DAY(readingTime),HOUR(readingTime)) as timeUnique
-		 from readings) subq
-		WHERE minutesSince<(60*48)
-		GROUP BY timeUnique
-		ORDER BY minutesSince DESC";
+                if ($hours==48) {
+                    $q = "SELECT * FROM (
+                    select *,
+                    TIMESTAMPDIFF(MINUTE,readingTime,NOW()) minutesSince,
+                    HOUR(readingTime) as timeHour,
+                    MINUTE(readingTime) as timeMinute,
+                    CONCAT(DAY(readingTime),HOUR(readingTime)) as timeUnique
+                     from readings) subq
+                    WHERE minutesSince<(60*48)
+                    GROUP BY timeUnique
+                    ORDER BY minutesSince DESC";
+                } else {
+                    //last 60 minutes
+                    $q="SELECT * FROM (select *,
+                    TIMESTAMPDIFF(MINUTE,readingTime,NOW()) minutesSince,
+                    HOUR(readingTime) as timeHour,
+                    MINUTE(readingTime) as timeMinute,
+                    CONCAT(DAY(readingTime),HOUR(readingTime)) as timeUnique
+                     from readings
+order by readingTime DESC LIMIT 0,60) subq ORDER BY readingTime ASC";
+                    
+                }
+		
 
 		$r = mysqli_query($mysqli,$q) or die ('Failed reading last temperature');
 

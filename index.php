@@ -38,6 +38,11 @@ if (isset($_REQUEST['getLongHistory'])) {
     exit;
 }
 
+if (isset($_REQUEST['getLastHourHistory'])) {
+    echo json_encode(Freezer::longHistory('hour'));
+    exit;
+}
+
 if (isset($_REQUEST['testEmail'])) {
     Freezer::sendMail('Here is subject','Here is message');
     exit;
@@ -64,6 +69,7 @@ if (isset($_REQUEST['settingsFormSubmitted'])) {
 
     //get data for long history
    $longHistory = Freezer::longHistory();
+   $lastHourHistory = Freezer::longHistory('short');
 
 ?>
 
@@ -142,6 +148,30 @@ labelAngle: 90
 	};
 
 	$("#chartContainer").CanvasJSChart(histOptions);
+        
+        
+
+
+var histOptions2 = {
+		
+axisX: {
+labelAngle: 90
+},
+                animationEnabled: true,
+		axisY: {
+       			 title: "Temp F",
+                         minimum: <?php echo $lastHourHistory['min']-10;?>,
+                         maximum: <?php echo $lastHourHistory['max']+10;?>
+		     },
+		data: [
+		{
+			type: "spline", //change it to line, area, bar, pie, etc
+			dataPoints: <?php echo json_encode($lastHourHistory['temps'],JSON_NUMERIC_CHECK);?>
+		}
+		]
+	};
+
+	$("#lastHourChartContainer").CanvasJSChart(histOptions2);
 
 }
 </script>
@@ -235,6 +265,8 @@ labelAngle: 90
                         </div>
                     </div>
                     
+                  
+                    
     
                 </div>
                 <!-- /.row -->
@@ -243,15 +275,32 @@ labelAngle: 90
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Temperature History</h3>
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 1-hour Temperature History</h3>
                             </div>
                             <div class="panel-body">
-                                <div id="chartContainer" style="height: 300px; width: 80%;"></div>
+                               <div id="lastHourChartContainer" style="height: 300px; width: 100%;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /.row -->
+                
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 48-hour Temperature History</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+                
+                
 
                 <div class="row">
                     
