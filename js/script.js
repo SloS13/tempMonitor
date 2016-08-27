@@ -87,6 +87,7 @@ function dialog_settings() {
 }
 
 function getOverallStatus() {
+    console.log('getOverallStatus Called');
     $.ajax({
         url: '/',
         type: 'POST',
@@ -96,6 +97,7 @@ function getOverallStatus() {
         success:function(result)
         {
             var response = jQuery.parseJSON(result);
+            console.log('oversll status response: ' + response.ok);
             if (response.ok) {
                 $('#tempReadout').addClass('panel-green').removeClass('panel-red');
                 $('#overallStatusWrapper').removeClass('alert-danger').addClass('alert-success').html('Oh shit, problem.');
