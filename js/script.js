@@ -100,10 +100,10 @@ function getOverallStatus() {
             console.log('oversll status response: ' + response.ok);
             if (response.ok) {
                 $('#tempReadout').addClass('panel-green').removeClass('panel-red');
-                $('#overallStatusWrapper').removeClass('alert-danger').addClass('alert-success').html('Everything is cool');
+                $('#overallStatusWrapper').removeClass('alert-danger').addClass('alert-info').html('Everything is cool');
             } else {
                 $('#tempReadout').addClass('panel-red').removeClass('panel-green');
-                $('#overallStatusWrapper').addClass('alert-danger').removeClass('alert-success').html('Problems in Freezerville');
+                $('#overallStatusWrapper').addClass('alert-danger').removeClass('alert-info').html('Problems in Freezerville');
 
                 alert('there is a problem!');
             }
