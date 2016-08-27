@@ -97,9 +97,9 @@ function getOverallStatus() {
         {
             var response = jQuery.parseJSON(result);
             if (response.ok) {
-                $('#tempReadout').addClass('ok');
+                $('#tempReadout').addClass('panel-green');
             } else {
-                $('#tempReadout').removeClass('ok');
+                $('#tempReadout').removeClass('panel-red');
                 alert('there is a problem!');
             }
             
