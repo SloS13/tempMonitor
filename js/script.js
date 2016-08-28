@@ -253,6 +253,7 @@ $(document).ready(function(){
     getOverallStatus();
 
     setTimeout(getOverallStatus, 5000);
+    setTimeout(loadLiveTemp, 500);
     
 
 
