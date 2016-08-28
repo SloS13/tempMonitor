@@ -227,6 +227,26 @@ $(document).ready(function(){
     $(document).on('click','#loadSettingsButton',loadSettings);
     $(document).on('click','#loadLastTempButton',loadLastTemp);
     
+    
+    $(document).on('submit','#settingsForm',function(e){
+        e.preventDefault();
+        var data = $('#settingsForm').serialize();
+        $.ajax({
+           url: '/',
+           type: 'POST',
+           async:false,
+           data: data,
+           success:function(result)
+           {
+              alert(result);
+           }
+       }); //ajax call
+    });
+    
+    
+    
+    
+    
    
     loadLiveTemp();
     loadSettings();

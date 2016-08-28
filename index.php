@@ -241,6 +241,8 @@ labelAngle: 90
                 <div class="row">
                     <div class="col-lg-6">
                         <form role="form" id="settingsForm">
+                            <input type="hidden" name="settingsFormSubmitted" value="1">
+                            <input type="hidden" name="minutesBetweenNotifications" value="<?php echo $settings['minutesBetweenNotifications'];?>">
                             <div class="form-group">
                                 <label>Minimum Temperature</label>
                                 <input class="form-control" name="minTemp" value="<?php echo $settings['minTemp'];?>">
