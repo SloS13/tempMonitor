@@ -177,6 +177,7 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
                     WHERE minutesSince<(60*48)
                     GROUP BY timeUnique
                     ORDER BY minutesSince DESC";
+                    $timeFormat = 'D ga';
                 } else {
                     //last 60 minutes
                     $q="SELECT * FROM (select *,
@@ -186,7 +187,7 @@ CONCAT(TIMESTAMPDIFF(MINUTE,readingTime,NOW()),' minutes ago') as minutesSince f
                     CONCAT(DAY(readingTime),HOUR(readingTime)) as timeUnique
                      from readings
 order by readingTime DESC LIMIT 0,60) subq ORDER BY readingTime ASC";
-                    
+                    $timeFormat = 'g:i';
                 }
 		
 
@@ -195,7 +196,7 @@ order by readingTime DESC LIMIT 0,60) subq ORDER BY readingTime ASC";
 		while ($row = mysqli_fetch_assoc($r)) {
                   if ($row['temperature'] < $min){$min = $row['temperature'];}
                   if ($row['temperature'] > $max){$max = $row['temperature'];}
-		  $new = array('y' => $row['temperature'],'label' => date('D ga',strtotime($row['readingTime'])));
+		  $new = array('y' => $row['temperature'],'label' => date($timeFormat,strtotime($row['readingTime'])));
 		  $histArray[] = $new;
 		}
                 
