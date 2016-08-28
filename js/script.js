@@ -252,8 +252,8 @@ $(document).ready(function(){
     loadSettings();
     getOverallStatus();
 
-    setTimeout(getOverallStatus, 5000);
-    setTimeout(loadLiveTemp, 500);
+    setInterval(getOverallStatus, 5000);
+    setInterval(loadLiveTemp, 500);
     
 
 
