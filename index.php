@@ -159,7 +159,7 @@ labelAngle: 90
 },
                 animationEnabled: true,
 		axisY: {
-       			 title: "Temp F",
+       			 title: "Temp F",   
                          minimum: <?php echo $lastHourHistory['min']-10;?>,
                          maximum: <?php echo $lastHourHistory['max']+10;?>
 		     },
@@ -181,7 +181,7 @@ labelAngle: 90
     #tempReadout {
         font-family: 'Orbitron', sans-serif;
         
-        font-size:6em;
+        font-size:5em;
 
       }
       
@@ -228,7 +228,35 @@ labelAngle: 90
 
         <div id="page-wrapper">
             <div class="container-fluid" id="container_settings" style="display:none;">
-                settings go here
+                 <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Settings
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <?php $settings = Freezer::getSettings('array');?>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form role="form" id="settingsForm">
+                            <div class="form-group">
+                                <label>Minimum Temperature</label>
+                                <input class="form-control" name="minTemp" value="<?php echo $settings['minTemp'];?>">
+                            </div>
+                            <div class="form-group">
+                                <label>Maximum Temperature</label>
+                                <input class="form-control" name="maxTemp" value="<?php echo $settings['maxTemp'];?>">
+                            </div>
+                            <div class="form-group">
+                                <label>Alert emails <small>(Separate with commas)</small></label>
+                                <input class="form-control" name="alertEmails" value="<?php echo $settings['alertEmails'];?>">
+                            </div>
+                            <button type="submit" class="btn btn-default">Save</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="container-fluid" id="container_dashboard">
