@@ -136,8 +136,8 @@ labelAngle: 90
                 animationEnabled: true,
 		axisY: {
        			 title: "Temp F",
-                         minimum: <?php echo $longHistory['min']-10;?>,
-                         maximum: <?php echo $longHistory['max']+10;?>
+                         minimum: <?php echo $longHistory['min']-5;?>,
+                         maximum: <?php echo $longHistory['max']+5;?>
 		     },
 		data: [
 		{
@@ -160,8 +160,8 @@ labelAngle: 90
                 animationEnabled: true,
 		axisY: {
        			 title: "Temp F",   
-                         minimum: <?php echo $lastHourHistory['min']-10;?>,
-                         maximum: <?php echo $lastHourHistory['max']+10;?>
+                         minimum: <?php echo $lastHourHistory['min']-5;?>,
+                         maximum: <?php echo $lastHourHistory['max']+5;?>
 		     },
 		data: [
 		{
