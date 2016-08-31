@@ -352,6 +352,7 @@ order by readingTime DESC LIMIT 0,60) subq ORDER BY readingTime ASC";
      $mysqli = static::getConnection();
      $q = "select * from alerts order by id DESC LIMIT 0,25";
      $r = mysqli_query($mysqli,$q) or die ('Failed to get alert history ' . $q);
+     $html = '';
      if (mysqli_num_rows($r)) {
          while ($row = mysqli_fetch_assoc($r)) {
              //determine color
@@ -368,7 +369,7 @@ order by readingTime DESC LIMIT 0,60) subq ORDER BY readingTime ASC";
              }
              
              
-             $html = '
+             $html .= '
                     <div class="list-group-item">
                         <span class="badge">'.$row['alertDate'].'</span>
                         <i class="fa fa-fw fa-exclamation-triangle" style="color:'.$color.'"></i> <div>'.$row['alertConditionDescription'].$extra.'</div>
