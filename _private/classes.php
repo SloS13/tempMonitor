@@ -131,7 +131,7 @@ where readingTime >= DATE_SUB(NOW(),INTERVAL 1 HOUR); ') or die ('Failed getting
                 
                 //automatially confirm last alert, email people 
                 if (!$currentStatus['ok'] && ($last3Info['numGoodTemps']==3 )) {
-                    $q = "UPDATE alerts SET alertStatus=2, alertLog = CONCAT(alertLog,|, Temperature normalized, disabling alert') WHERE alertStatus=0";
+                    $q = "UPDATE alerts SET alertStatus=2, alertLog = CONCAT(alertLog,'|', 'Temperature normalized, disabling alert') WHERE alertStatus=0";
                     $r = mysqli_query($mysqli,$q) or die ('Unable to disarm automatically');
                 }
                 
